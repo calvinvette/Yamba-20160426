@@ -4,12 +4,20 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
 
+
+
     defaultConfig {
         applicationId "com.triveratech.hallmark.yamba"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+//        systemProp.http.proxyHost=proxy.company.com 10.216.6.11
+//        systemProp.http.proxyPort=443
+//        systemProp.http.proxyUser=userid
+//        systemProp.http.proxyPassword=password
+//        systemProp.http.auth.ntlm.domain=domain
+
     }
     buildTypes {
         release {

@@ -1,12 +1,16 @@
 package com.triveratech.hallmark.yamba;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.marakana.android.yamba.clientlib.YambaClient;
@@ -16,6 +20,8 @@ public class StatusActivity extends AppCompatActivity {
     public static final String TAG = "yamba.StatusActivity";
     private EditText editStatus;
     private Button btnTweet;
+    private TextView txtCount;
+    private int defaultTxtCountColor;
 
 
     @Override
@@ -24,6 +30,9 @@ public class StatusActivity extends AppCompatActivity {
         setContentView(R.layout.activity_status);
         editStatus = (EditText) findViewById(R.id.editStatus);
         btnTweet = (Button) findViewById(R.id.btnTweet);
+        txtCount = (TextView) findViewById(R.id.txtCount);
+        defaultTxtCountColor = txtCount.getTextColors().getDefaultColor();
+
         btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,6 +40,35 @@ public class StatusActivity extends AppCompatActivity {
                 Log.d(TAG, "Status to send" + status);
                new PostTask().execute(status);
 
+            }
+        });
+
+        editStatus.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int count = 140 - editStatus.length();
+                txtCount.setText(Integer.toString(count));
+                if (count < 10) {
+                    txtCount.setTextColor(Color.RED);
+                } else {
+                    txtCount.setTextColor(defaultTxtCountColor);
+                }
+
+                if (count <= 0) {
+                    btnTweet.setEnabled(false);
+                } else {
+                    btnTweet.setEnabled(true);
+                }
             }
         });
 
