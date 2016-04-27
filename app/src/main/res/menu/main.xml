@@ -8,5 +8,9 @@
         android:id="@+id/action_settings"
         android:title="@string/mi_action_settings"
         />
+    <item
+        android:id="@+id/action_refresh"
+        android:title="@string/mi_action_refresh"
+        />
 
 </menu>
