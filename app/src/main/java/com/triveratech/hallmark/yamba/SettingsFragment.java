@@ -1,9 +1,11 @@
 package com.triveratech.hallmark.yamba;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,11 +15,11 @@ import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SettingsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
  */
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragment
+        // implements SharedPreferences.OnSharedPreferenceChangeListener
+{
+    // private SharedPreferences prefs;
 
     public SettingsFragment() {
     }
@@ -28,4 +30,18 @@ public class SettingsFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.pref_general);
     }
 
+    /*
+    @Override
+    public void onStart() {
+        super.onStart();
+        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        prefs.registerOnSharedPreferenceChangeListener(this);
+    }
+
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Object value = sharedPreferences.getString(key, null);
+    }
+    */
 }

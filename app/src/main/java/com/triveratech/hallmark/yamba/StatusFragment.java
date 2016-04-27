@@ -1,10 +1,12 @@
 package com.triveratech.hallmark.yamba;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -46,6 +48,10 @@ public class StatusFragment extends Fragment {
     private String message;
     private Boolean sendLocation;
 
+    private String userId = "student";
+    private String password = "password";
+    private String serverUrl = "http://yamba.marakana.com/api"; // the old value is wrong - change in settings page!
+
     private OnFragmentInteractionListener mListener;
 
 
@@ -55,7 +61,7 @@ public class StatusFragment extends Fragment {
             String status = params[0];
             String result = "Unknown Result!";
             try {
-                YambaClient yamba = new YambaClient("student", "password", "http://yamba.newcircle.com/api");
+                YambaClient yamba = new YambaClient(userId, password, serverUrl);
                 yamba.postStatus(status);
                 Log.e(TAG, "Status Sent: " + status);
                 result = "Status Sent: " + status;
@@ -99,7 +105,7 @@ public class StatusFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState); // Used to restore the fragment later after it was destroyed
         if (getArguments() != null) {
             message = getArguments().getString(ARG_MESSAGE);
             sendLocation = getArguments().getBoolean(ARG_ADD_LOCATION);
@@ -116,6 +122,11 @@ public class StatusFragment extends Fragment {
         btnTweet = (Button) view.findViewById(R.id.btnTweet);
         txtCount = (TextView) view.findViewById(R.id.txtCount);
         defaultTxtCountColor = txtCount.getTextColors().getDefaultColor();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        userId = prefs.getString("userName", userId);
+        password = prefs.getString("password", password);
+        serverUrl = prefs.getString("serverUrl", serverUrl);
 
         btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override

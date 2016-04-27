@@ -4,6 +4,7 @@ package com.triveratech.hallmark.yamba;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -34,6 +35,8 @@ import java.util.List;
  * API Guide</a> for more information on developing a SettingsFragment UI.
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
+
+
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.

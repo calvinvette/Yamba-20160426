@@ -73,4 +73,9 @@
 
     <string name="pref_title_server">Server API Root</string>
     <string name="pref_summary_server">Protocol, Host, Port, and context root of the server that we\'ll post to</string>
+    <string name="title_activity_main">YAMBA!</string>
+
+
+    <string name="mi_action_settings">Settings</string>
+    <string name="mi_action_tweet">Send Tweet</string>
 </resources>
