@@ -1,0 +1,423 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf460
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Bold;\f2\fnil\fcharset0 Menlo-Regular;
+\f3\fnil\fcharset0 Menlo-Italic;\f4\fnil\fcharset0 Menlo-BoldItalic;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue128;\red102\green14\blue122;\red0\green128\blue0;
+\red128\green128\blue128;\red0\green115\blue191;\red128\green128\blue0;\red0\green0\blue255;}
+\margl1440\margr1440\vieww19820\viewh17720\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Class Start: 10:00am EDT\
+\
+Mid-morning Break: 10 minutes\
+\
+	Monday: 11:56 - 12:06 EDT\
+	(Hold off questions until back from break)\
+\
+Lunch ~ 1:15 - 1:45 (30 min)\
+	Monday: 1:30 - 2:00 EDT\
+\
+Afternoon break: 10 minutes\
+\
+Class End: 5:00pm EDT\
+\
+\
+\
+\
+\
+\
+Try to get the Hello Android App to launch in Android Studio. Let me know if it works for you, but go grab lunch at 1:30 Eastern and come back at 2:00\
+We'll sort out any remaining issues after lunch.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 Lunch	Monday: 1:30 - 2:00 EDT\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+Break until 3:40 EDT / 2:40 CDT\
+\
+\
+\
+Kaizen - continuous improvement\
+	Continuous Integration - ideally a build every check-in	\
+	Test-Driven Development/Engineering - test after build\
+		Functional\
+			Unit tests \
+			Progressive Integration tests\
+			End-to-End\
+		Non-Functional (re-use previous tests as much as possible)\
+			Performance\
+				Unit tests \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 				Progressive Integration tests\
+				End-to-End\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 			Scalability\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 				Unit tests \
+				Progressive Integration tests\
+				End-to-End\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 			High Availability (HA) / Fail-over (FO)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 				Unit tests \
+				Progressive Integration tests\
+				End-to-End\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 			Security (specialized tests)\
+	Refactoring\
+	Documentation\
+\
+\
+\
+\
+Lunch + Adding in MainActivity with menu \
+(through "Updating StatusActivity to Handle Menu Events", ex 9.8)\
+\
+1:15-2:15E/12:15-1:15C\
+\
+Remember to disable the pref_headers.xml to get rid of the overlapping sections (for now)\
+\
+Quick break from 3:50 - 4:00, then do Ch 10 RefreshService as an IntentService\
+\
+File->New->Service->Service(Intent Service)\
+Call it "RefreshService", uncheck the "helper methods"\
+Comment out the code in the generated file\
+Create the code similar to Ex 10.2\
+\
+Let me know in the chat window or verbally if you have any issues\
+and when you're ready to move on.\
+\
+\
+\
+In StatusFragment, add in private properties to represent the Prefs:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b \cf2 private 
+\f2\b0 \cf0 String 
+\f1\b \cf3 userId 
+\f2\b0 \cf0 = 
+\f1\b \cf4 "student"
+\f2\b0 \cf0 ;\uc0\u8232 
+\f1\b \cf2 private 
+\f2\b0 \cf0 String 
+\f1\b \cf3 password 
+\f2\b0 \cf0 = 
+\f1\b \cf4 "password"
+\f2\b0 \cf0 ;\uc0\u8232 
+\f1\b \cf2 private 
+\f2\b0 \cf0 String 
+\f1\b \cf3 serverUrl 
+\f2\b0 \cf0 = 
+\f1\b \cf4 "http://yamba.marakana.com/api"
+\f2\b0 \cf0 ; 
+\f3\i \cf5 // the old value is wrong - change in settings page!\uc0\u8232 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\i0 \cf0 In StatusFragment#onCreateView, assign the values from prefs to those properties:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f2 \cf0 SharedPreferences prefs = PreferenceManager.
+\f3\i getDefaultSharedPreferences
+\f2\i0 (getActivity());\uc0\u8232 
+\f1\b \cf3 userId 
+\f2\b0 \cf0 = prefs.getString(
+\f1\b \cf4 "userName"
+\f2\b0 \cf0 , 
+\f1\b \cf3 userId
+\f2\b0 \cf0 );\uc0\u8232 
+\f1\b \cf3 password 
+\f2\b0 \cf0 = prefs.getString(
+\f1\b \cf4 "password"
+\f2\b0 \cf0 , 
+\f1\b \cf3 password
+\f2\b0 \cf0 );\uc0\u8232 
+\f1\b \cf3 serverUrl 
+\f2\b0 \cf0 = prefs.getString(
+\f1\b \cf4 "serverUrl"
+\f2\b0 \cf0 , 
+\f1\b \cf3 serverUrl
+\f2\b0 \cf0 );\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0 \cf0 \
+\
+\
+Before and In RefreshService#onHandleIntent:\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f3\i \cf5 // 
+\f4\b \cf6 TODO - Refactor this out!\uc0\u8232 
+\f1\i0 \cf2 private 
+\f2\b0 \cf0 String 
+\f1\b \cf3 userId 
+\f2\b0 \cf0 = 
+\f1\b \cf4 "student"
+\f2\b0 \cf0 ;\uc0\u8232 
+\f1\b \cf2 private 
+\f2\b0 \cf0 String 
+\f1\b \cf3 password 
+\f2\b0 \cf0 = 
+\f1\b \cf4 "password"
+\f2\b0 \cf0 ;\uc0\u8232 
+\f1\b \cf2 private 
+\f2\b0 \cf0 String 
+\f1\b \cf3 serverUrl 
+\f2\b0 \cf0 = 
+\f1\b \cf4 "http://yamba.marakana.com/api"
+\f2\b0 \cf0 ; 
+\f3\i \cf5 // the old value is wrong - change in settings page!\uc0\u8232 \u8232 \u8232 
+\f2\i0 \cf7 @Override\uc0\u8232 
+\f1\b \cf2 protected void 
+\f2\b0 \cf0 onHandleIntent(Intent intent) \{\uc0\u8232     Log.
+\f3\i d
+\f2\i0 (
+\f4\i\b \cf3 TAG
+\f2\i0\b0 \cf0 , 
+\f1\b \cf4 "Intent Delivered: " 
+\f2\b0 \cf0 + intent);\uc0\u8232     SharedPreferences prefs = PreferenceManager.
+\f3\i getDefaultSharedPreferences
+\f2\i0 (
+\f1\b \cf2 this
+\f2\b0 \cf0 );\uc0\u8232     
+\f1\b \cf3 userId 
+\f2\b0 \cf0 = prefs.getString(
+\f1\b \cf4 "userName"
+\f2\b0 \cf0 , 
+\f1\b \cf3 userId
+\f2\b0 \cf0 );\uc0\u8232     
+\f1\b \cf3 password 
+\f2\b0 \cf0 = prefs.getString(
+\f1\b \cf4 "password"
+\f2\b0 \cf0 , 
+\f1\b \cf3 password
+\f2\b0 \cf0 );\uc0\u8232     
+\f1\b \cf3 serverUrl 
+\f2\b0 \cf0 = prefs.getString(
+\f1\b \cf4 "serverUrl"
+\f2\b0 \cf0 , 
+\f1\b \cf3 serverUrl
+\f2\b0 \cf0 );\uc0\u8232 \u8232     
+\f1\b \cf2 if 
+\f2\b0 \cf0 (TextUtils.
+\f3\i isEmpty
+\f2\i0 (
+\f1\b \cf3 userId
+\f2\b0 \cf0 ) || TextUtils.
+\f3\i isEmpty
+\f2\i0 (
+\f1\b \cf3 password
+\f2\b0 \cf0 )) \{\uc0\u8232         Toast.
+\f3\i makeText
+\f2\i0 (
+\f1\b \cf2 this
+\f2\b0 \cf0 , 
+\f1\b \cf4 "Update your userName and password in Settings!"
+\f2\b0 \cf0 , Toast.
+\f4\i\b \cf3 LENGTH_LONG
+\f2\i0\b0 \cf0 ).show();\uc0\u8232         
+\f1\b \cf2 return
+\f2\b0 \cf0 ;\uc0\u8232     \}\u8232 \u8232     YambaClient yambaClient = 
+\f1\b \cf2 new 
+\f2\b0 \cf0 YambaClient(
+\f1\b \cf3 userId
+\f2\b0 \cf0 , 
+\f1\b \cf3 password
+\f2\b0 \cf0 , 
+\f1\b \cf3 serverUrl
+\f2\b0 \cf0 );\uc0\u8232     
+\f1\b \cf2 try 
+\f2\b0 \cf0 \{\uc0\u8232         List<YambaClient.Status> timeLine = yambaClient.getTimeline(\cf8 20\cf0 );\uc0\u8232         
+\f1\b \cf2 for 
+\f2\b0 \cf0 (YambaClient.Status s: timeLine) \{\uc0\u8232             Log.
+\f3\i d
+\f2\i0 (
+\f4\i\b \cf3 TAG
+\f2\i0\b0 \cf0 , s.getUser() + 
+\f1\b \cf4 ": " 
+\f2\b0 \cf0 + s.getMessage());\uc0\u8232         \}\u8232     \} 
+\f1\b \cf2 catch 
+\f2\b0 \cf0 (YambaClientException e) \{\uc0\u8232         e.printStackTrace();\u8232     \}\u8232     
+\f1\b \cf2 return
+\f2\b0 \cf0 ;\uc0\u8232 \}\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0 \cf0 \
+\
+\
+main.xml:\
+\
+Add in another menu item (remember to add the string value "Refresh" for this key in the strings.xml (Alt-Enter within the double-quotes)\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f2 \cf0 <
+\f1\b \cf2 item\uc0\u8232     \cf3 android\cf8 :id=\cf4 "@+id/action_refresh"\uc0\u8232     \cf3 android\cf8 :title=\cf4 "@string/mi_action_refresh"\uc0\u8232     
+\f2\b0 \cf0 />\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0 \cf0 \
+\
+In MainActivity#onOptionsItemSelected, add in the handler for the menuItem in the select clause:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b \cf2 case 
+\f2\b0 \cf0 R.id.
+\f4\i\b \cf3 action_refresh
+\f2\i0\b0 \cf0 :\uc0\u8232     startService(
+\f1\b \cf2 new 
+\f2\b0 \cf0 Intent(
+\f1\b \cf2 this
+\f2\b0 \cf0 , RefreshService.
+\f1\b \cf2 class
+\f2\b0 \cf0 ));\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0 \cf0 \
+\
+Launch and verify in LogCat that you get the last 20 items or so after clicking the Refresh menu item.\
+\
+Once you've got that, we're done for the day. We'll regroup tomorrow (same Bat-time, same Bat-channel: 10am E / 9am C)\
+\
+\
+\
+/data\
+	/data\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 		/com.triveratech.hallmark.yamba/\
+			cache\
+			sharedPrefs\
+			other files as generated/downloaded (user specific)\
+			(CWD)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 	/app\
+		/com.triveratech.hallmark.yamba/\
+			binaries (apk)\
+			distributed files\
+\
+\
+\
+\
+\
+Create the StatusContract class: (Ex 11.1)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b \cf2 public class 
+\f2\b0 \cf0 StatusContract \{\uc0\u8232 \u8232     
+\f1\b \cf2 public static final 
+\f2\b0 \cf0 String 
+\f4\i\b \cf3 DB_NAME 
+\f2\i0\b0 \cf0 = 
+\f1\b \cf4 "timeline.db"
+\f2\b0 \cf0 ;\uc0\u8232     
+\f1\b \cf2 public static final int 
+\f4\i \cf3 DB_VERSION 
+\f2\i0\b0 \cf0 = \cf8 1\cf0 ;\uc0\u8232     
+\f1\b \cf2 public static final 
+\f2\b0 \cf0 String 
+\f4\i\b \cf3 TABLE 
+\f2\i0\b0 \cf0 = 
+\f1\b \cf4 "status"
+\f2\b0 \cf0 ;\uc0\u8232 \u8232     
+\f1\b \cf2 public static final 
+\f2\b0 \cf0 String 
+\f4\i\b \cf3 DEFAULT_SORT 
+\f2\i0\b0 \cf0 = Column.
+\f4\i\b \cf3 CREATED_AT 
+\f2\i0\b0 \cf0 + 
+\f1\b \cf4 " DESC"
+\f2\b0 \cf0 ;\uc0\u8232 \u8232     
+\f1\b \cf2 public class 
+\f2\b0 \cf0 Column \{\uc0\u8232         
+\f1\b \cf2 public static final 
+\f2\b0 \cf0 String 
+\f4\i\b \cf3 ID 
+\f2\i0\b0 \cf0 = BaseColumns.
+\f4\i\b \cf3 _ID
+\f2\i0\b0 \cf0 ;\uc0\u8232         
+\f1\b \cf2 public static final 
+\f2\b0 \cf0 String 
+\f4\i\b \cf3 USER 
+\f2\i0\b0 \cf0 = 
+\f1\b \cf4 "user"
+\f2\b0 \cf0 ;\uc0\u8232         
+\f1\b \cf2 public static final 
+\f2\b0 \cf0 String 
+\f4\i\b \cf3 MESSAGE 
+\f2\i0\b0 \cf0 = 
+\f1\b \cf4 "message"
+\f2\b0 \cf0 ;\uc0\u8232         
+\f1\b \cf2 public static final 
+\f2\b0 \cf0 String 
+\f4\i\b \cf3 CREATED_AT 
+\f2\i0\b0 \cf0 = 
+\f1\b \cf4 "created_at"
+\f2\b0 \cf0 ;\uc0\u8232     \}\u8232 \}\u8232 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0 \cf0 \
+\
+Create the DbHelper class: (Ex 11.2)\
+\
+\
+(Ex 11.3) In RefreshService#onHandleIntent, modify the code around the Log.d(...):\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f2 \cf0 YambaClient yambaClient = 
+\f1\b \cf2 new 
+\f2\b0 \cf0 YambaClient(
+\f1\b \cf3 userId
+\f2\b0 \cf0 , 
+\f1\b \cf3 password
+\f2\b0 \cf0 , 
+\f1\b \cf3 serverUrl
+\f2\b0 \cf0 );\uc0\u8232 
+\f1\b \cf2 try 
+\f2\b0 \cf0 \{\uc0\u8232     List<YambaClient.Status> timeLine = yambaClient.getTimeline(\cf8 20\cf0 );\uc0\u8232 \u8232     DbHelper dbHelper = 
+\f1\b \cf2 new 
+\f2\b0 \cf0 DbHelper(
+\f1\b \cf2 this
+\f2\b0 \cf0 );\uc0\u8232     SQLiteDatabase db = dbHelper.getWritableDatabase();\u8232     ContentValues values = 
+\f1\b \cf2 new 
+\f2\b0 \cf0 ContentValues();\uc0\u8232 \u8232     
+\f1\b \cf2 for 
+\f2\b0 \cf0 (YambaClient.Status s: timeLine) \{\uc0\u8232         Log.
+\f3\i d
+\f2\i0 (
+\f4\i\b \cf3 TAG
+\f2\i0\b0 \cf0 , s.getUser() + 
+\f1\b \cf4 "@" 
+\f2\b0 \cf0 + s.getCreatedAt() + 
+\f1\b \cf4 ": " 
+\f2\b0 \cf0 + s.getMessage());\uc0\u8232         values.clear();\u8232         values.put(StatusContract.Column.
+\f4\i\b \cf3 ID
+\f2\i0\b0 \cf0 , s.getId());\uc0\u8232         values.put(StatusContract.Column.
+\f4\i\b \cf3 USER
+\f2\i0\b0 \cf0 , s.getUser());\uc0\u8232         values.put(StatusContract.Column.
+\f4\i\b \cf3 MESSAGE
+\f2\i0\b0 \cf0 , s.getMessage());\uc0\u8232         values.put(StatusContract.Column.
+\f4\i\b \cf3 CREATED_AT
+\f2\i0\b0 \cf0 , s.getCreatedAt().getTime());\uc0\u8232         db.insertWithOnConflict(StatusContract.
+\f4\i\b \cf3 TABLE
+\f2\i0\b0 \cf0 , 
+\f1\b \cf2 null
+\f2\b0 \cf0 , values, SQLiteDatabase.
+\f4\i\b \cf3 CONFLICT_IGNORE
+\f2\i0\b0 \cf0 );\uc0\u8232     \}\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0 \cf0 \
+\
+\
+\
+\
+\
+\
+}

@@ -1,8 +1,10 @@
 package com.triveratech.hallmark.yamba;
 
 import android.app.IntentService;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,7 +12,10 @@ import android.widget.Toast;
 
 import com.marakana.android.yamba.clientlib.YambaClient;
 import com.marakana.android.yamba.clientlib.YambaClientException;
+import com.triveratech.hallmark.yamba.data.DbHelper;
+import com.triveratech.hallmark.yamba.data.StatusContract;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -61,17 +66,39 @@ public class RefreshService extends IntentService {
         password = prefs.getString("password", password);
         serverUrl = prefs.getString("serverUrl", serverUrl);
 
+        // TODO - is this executing after the thread for the IntentService dies???
         if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Update your userName and password in Settings!", Toast.LENGTH_LONG).show();
             return;
         }
 
+//        File cwd = new File("."); // Current Working Directory (CWD)
+//        Log.d(TAG, "CWD: " + cwd.getAbsolutePath());
+//        File[] fileList = cwd.listFiles();
+//        for (File f : fileList) {
+//            if (f.isFile()) {
+//                Log.d(TAG, f.getPath());
+//            }
+//        }
+
         YambaClient yambaClient = new YambaClient(userId, password, serverUrl);
         try {
             List<YambaClient.Status> timeLine = yambaClient.getTimeline(20);
+
+            DbHelper dbHelper = new DbHelper(this);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+
             for (YambaClient.Status s: timeLine) {
-                Log.d(TAG, s.getUser() + ": " + s.getMessage());
+                Log.d(TAG, s.getUser() + "@" + s.getCreatedAt() + ": " + s.getMessage());
+                values.clear();
+                values.put(StatusContract.Column.ID, s.getId());
+                values.put(StatusContract.Column.USER, s.getUser());
+                values.put(StatusContract.Column.MESSAGE, s.getMessage());
+                values.put(StatusContract.Column.CREATED_AT, s.getCreatedAt().getTime());
+                db.insertWithOnConflict(StatusContract.TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
             }
+
         } catch (YambaClientException e) {
             e.printStackTrace();
         }
