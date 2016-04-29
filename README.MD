@@ -3,4 +3,5 @@ This is a re-creation of the solution from "Learning Android", modified slightly
 It includes minor corrections and updates from the book's solution including altering the domain of the server to newcircle.com (from marakana.com),
 as well as project settings for Android Studio (we used version 2.0 in class) from the book's Eclipse-based project.
 
+The solution has been modified to use Android Studio 2.1 shortly after class (on 29 April 2016)
 

@@ -43,6 +43,7 @@ public class TimelineFragment extends ListFragment implements LoaderManager.Load
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         adapter = new SimpleCursorAdapter(getActivity(), R.layout.status_list_item, null, FROM, TO, 0);
+        // Altered to use anonymous inline class rather than one-off private static class
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
             @Override
             public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
