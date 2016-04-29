@@ -43,7 +43,19 @@ public class TimelineFragment extends ListFragment implements LoaderManager.Load
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         adapter = new SimpleCursorAdapter(getActivity(), R.layout.status_list_item, null, FROM, TO, 0);
-        adapter.setViewBinder(VIEW_BINDER);
+        adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+                switch (view.getId()) {
+                    case R.id.status_list_item_created_at:
+                        long timeStamp = cursor.getLong(columnIndex);
+                        ((TextView) view).setText(DateUtils.getRelativeTimeSpanString(timeStamp));
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
         setListAdapter(adapter);
         getLoaderManager().initLoader(LOADER_ID, null, this);
     }
@@ -64,18 +76,5 @@ public class TimelineFragment extends ListFragment implements LoaderManager.Load
         adapter.swapCursor(null);
     }
 
-    private static final SimpleCursorAdapter.ViewBinder VIEW_BINDER = new SimpleCursorAdapter.ViewBinder() {
-        @Override
-        public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
-            switch (view.getId()) {
-                case R.id.status_list_item_created_at:
-                    long timeStamp = cursor.getLong(columnIndex);
-                    ((TextView) view).setText(DateUtils.getRelativeTimeSpanString(timeStamp));
-                    return true;
-                default:
-                    return false;
-            }
-        }
-    };
 
 }
