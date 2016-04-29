@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/status_list_item_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Will.I.am"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+    <TextView
+        android:id="@+id/status_list_item_created_at"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="15 seconds ago"
+        android:layout_alignBaseline="@+id/status_list_item_user"
+        android:layout_alignBottom="@+id/status_list_item_user"
+        android:layout_alignParentRight="true"
+        android:textColor="@android:color/secondary_text_light"
+        />
+    <TextView
+        android:id="@+id/status_list_item_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:linksClickable="true"
+        android:autoLink="web"
+        android:focusable="false"
+        android:text="This is a message"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/status_list_item_created_at"
+        />
+
+</RelativeLayout>

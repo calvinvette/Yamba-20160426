@@ -5,6 +5,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -72,14 +74,19 @@ public class RefreshService extends IntentService {
             return;
         }
 
-//        File cwd = new File("."); // Current Working Directory (CWD)
-//        Log.d(TAG, "CWD: " + cwd.getAbsolutePath());
-//        File[] fileList = cwd.listFiles();
-//        for (File f : fileList) {
-//            if (f.isFile()) {
-//                Log.d(TAG, f.getPath());
-//            }
-//        }
+        File cwd;
+        //cwd = new File("."); // Current Working Directory (CWD), defaults to "/." in modern Android
+//        cwd = getFilesDir(); // /data/data/mypackage/files
+        // NEED android.permission.READ_EXTERNAL_STORAGE
+         cwd = getExternalFilesDir(Environment.DIRECTORY_PICTURES); // Environment.DIRECTORY_*
+
+        Log.d(TAG, "CWD: " + cwd.getAbsolutePath());
+        File[] fileList = cwd.listFiles();
+        for (File f : fileList) {
+            if (f.isFile()) {
+                Log.d(TAG, f.getPath());
+            }
+        }
 
         YambaClient yambaClient = new YambaClient(userId, password, serverUrl);
         try {
@@ -96,7 +103,11 @@ public class RefreshService extends IntentService {
                 values.put(StatusContract.Column.USER, s.getUser());
                 values.put(StatusContract.Column.MESSAGE, s.getMessage());
                 values.put(StatusContract.Column.CREATED_AT, s.getCreatedAt().getTime());
-                db.insertWithOnConflict(StatusContract.TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+//                db.insertWithOnConflict(StatusContract.TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+                Uri uri = getContentResolver().insert(StatusContract.CONTENT_URI, values);
+                if (uri == null) {
+                    Log.d(TAG, "Failed to insert with Content Resolver! " + uri);
+                }
             }
 
         } catch (YambaClientException e) {

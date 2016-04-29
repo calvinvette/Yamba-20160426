@@ -35,7 +35,13 @@
 
         <service
             android:name=".RefreshService"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <provider
+            android:name=".provider.StatusProvider"
+            android:authorities="com.triveratech.hallmark.yamba.provider.StatusProvider"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

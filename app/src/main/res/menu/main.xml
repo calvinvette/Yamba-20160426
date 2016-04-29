@@ -12,5 +12,9 @@
         android:id="@+id/action_refresh"
         android:title="@string/mi_action_refresh"
         />
+    <item
+        android:id="@+id/action_purge"
+        android:title="@string/mi_action_purge"
+        />
 
 </menu>
