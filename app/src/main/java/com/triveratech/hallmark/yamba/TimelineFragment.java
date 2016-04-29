@@ -6,8 +6,11 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import com.triveratech.hallmark.yamba.data.StatusContract;
 
@@ -40,6 +43,7 @@ public class TimelineFragment extends ListFragment implements LoaderManager.Load
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         adapter = new SimpleCursorAdapter(getActivity(), R.layout.status_list_item, null, FROM, TO, 0);
+        adapter.setViewBinder(VIEW_BINDER);
         setListAdapter(adapter);
         getLoaderManager().initLoader(LOADER_ID, null, this);
     }
@@ -59,4 +63,19 @@ public class TimelineFragment extends ListFragment implements LoaderManager.Load
     public void onLoaderReset(Loader<Cursor> loader) {
         adapter.swapCursor(null);
     }
+
+    private static final SimpleCursorAdapter.ViewBinder VIEW_BINDER = new SimpleCursorAdapter.ViewBinder() {
+        @Override
+        public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+            switch (view.getId()) {
+                case R.id.status_list_item_created_at:
+                    long timeStamp = cursor.getLong(columnIndex);
+                    ((TextView) view).setText(DateUtils.getRelativeTimeSpanString(timeStamp));
+                    return true;
+                default:
+                    return false;
+            }
+        }
+    };
+
 }
