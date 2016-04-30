@@ -5,10 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.marakana.android.yamba.clientlib.YambaClient;
-
-import java.util.List;
-
 /**
  * Created by calvin on 4/28/16.
  */
@@ -30,15 +26,19 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String sql = String.format("create table %s ("
                 + "%s int primary key, "    // Yamba message ID
-                + "%s text, "           // User
-                + "%s text, "           // Message
-                + "%s int"              // Created_At
+                + "%s text, "               // User
+                + "%s text, "               // Message
+                + "%s int, "                // Created_At
+                + "%s real, "               // latitude
+                + "%s real"               // longitude
             + ")",
                 StatusContract.TABLE,
                 StatusContract.Column.ID,
                 StatusContract.Column.USER,
                 StatusContract.Column.MESSAGE,
-                StatusContract.Column.CREATED_AT
+                StatusContract.Column.CREATED_AT,
+                StatusContract.Column.LATITUDE,
+                StatusContract.Column.LONGITUDE
         );
         Log.d(TAG, "Timeline DB Create Table for Status: " + sql);
         db.execSQL(sql);

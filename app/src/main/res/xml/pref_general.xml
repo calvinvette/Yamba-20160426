@@ -15,7 +15,7 @@
         android:key="serverUrl"
         android:title="@string/pref_title_server"
         android:summary="@string/pref_summary_server"
-        android:defaultValue="http://yamba.marakana.com"
+        android:defaultValue="@string/defaultServerUrl"
         />
 
     <SwitchPreference

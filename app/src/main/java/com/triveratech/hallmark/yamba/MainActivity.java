@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.triveratech.hallmark.yamba.data.StatusContract;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(view.getContext(), StatusActivity.class));
             }
         });
+        Log.d(TAG, "App Started MainActivity - trigger RefreshService");
+        startService(new Intent(this, RefreshService.class));
     }
 
     @Override

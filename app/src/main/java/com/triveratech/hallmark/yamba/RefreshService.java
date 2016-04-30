@@ -12,8 +12,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.marakana.android.yamba.clientlib.YambaClient;
-import com.marakana.android.yamba.clientlib.YambaClientException;
+import com.thenewcircle.yamba.client.YambaClient;
+import com.thenewcircle.yamba.client.YambaClientException;
+import com.thenewcircle.yamba.client.YambaClientInterface;
+import com.thenewcircle.yamba.client.YambaStatus;
 import com.triveratech.hallmark.yamba.data.DbHelper;
 import com.triveratech.hallmark.yamba.data.StatusContract;
 
@@ -58,7 +60,7 @@ public class RefreshService extends IntentService {
     // TODO - Refactor this out!
     private String userId = "student";
     private String password = "password";
-    private String serverUrl = "http://yamba.marakana.com/api"; // the old value is wrong - change in settings page! 
+    private String serverUrl = "http://yamba.newcircle.com/api"; // the old value is wrong - change in settings page! 
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -88,22 +90,34 @@ public class RefreshService extends IntentService {
             }
         }
 
-        YambaClient yambaClient = new YambaClient(userId, password, serverUrl);
+        YambaClientInterface yambaClient = YambaClient.getClient(userId, password, serverUrl);
         try {
-            List<YambaClient.Status> timeLine = yambaClient.getTimeline(20);
+            List<YambaStatus> timeLine = yambaClient.getTimeline(20);
 
             DbHelper dbHelper = new DbHelper(this);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
 
-            for (YambaClient.Status s: timeLine) {
+            for (YambaStatus s: timeLine) {
                 Log.d(TAG, s.getUser() + "@" + s.getCreatedAt() + ": " + s.getMessage());
                 values.clear();
                 values.put(StatusContract.Column.ID, s.getId());
                 values.put(StatusContract.Column.USER, s.getUser());
                 values.put(StatusContract.Column.MESSAGE, s.getMessage());
                 values.put(StatusContract.Column.CREATED_AT, s.getCreatedAt().getTime());
-//                db.insertWithOnConflict(StatusContract.TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+
+                // The YambaClient jar does not currently support latitude and longitude
+                // It's in the return feed from the server, but not the jar file yet.
+                // Update the build.gradle file for the app when they do with the new version number
+                // and this code should work, along with storing in the database.
+                //values.put(StatusContract.Column.LATITUDE, s.getLatitude());
+                //values.put(StatusContract.Column.LONGITUDE, s.getLongitude());
+                // Disable these two lines of code then:
+                values.put(StatusContract.Column.LATITUDE, 42.5);
+                values.put(StatusContract.Column.LONGITUDE, -83.285);
+
+                // We're now using the Provider - don't use the db code directly
+                // db.insertWithOnConflict(StatusContract.TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
                 Uri uri = getContentResolver().insert(StatusContract.CONTENT_URI, values);
                 if (uri == null) {
                     Log.d(TAG, "Failed to insert with Content Resolver! " + uri);

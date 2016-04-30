@@ -3,6 +3,7 @@
     package="com.triveratech.hallmark.yamba">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -43,6 +44,14 @@
             android:authorities="com.triveratech.hallmark.yamba.provider.StatusProvider"
             android:enabled="true"
             android:exported="true" />
+
+        <receiver
+            android:name=".BootReceiver"
+        >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

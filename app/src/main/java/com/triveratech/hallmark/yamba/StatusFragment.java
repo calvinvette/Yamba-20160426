@@ -1,6 +1,7 @@
 package com.triveratech.hallmark.yamba;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
@@ -19,8 +20,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.marakana.android.yamba.clientlib.YambaClient;
-import com.marakana.android.yamba.clientlib.YambaClientException;
+import com.thenewcircle.yamba.client.YambaClient;
+import com.thenewcircle.yamba.client.YambaClientException;
+import com.thenewcircle.yamba.client.YambaClientInterface;
 
 
 /**
@@ -50,7 +52,7 @@ public class StatusFragment extends Fragment {
 
     private String userId = "student";
     private String password = "password";
-    private String serverUrl = "http://yamba.marakana.com/api"; // the old value is wrong - change in settings page!
+    private String serverUrl = "http://yamba.newcircle.com/api"; // the old value is wrong - change in settings page!
 
     private boolean allowPostingGeoLocation = false; // Default to false for safety reasons - user has to explicitly enable this in prefs
     private double latitude = 42.5, longitude = -83.285;
@@ -66,7 +68,7 @@ public class StatusFragment extends Fragment {
             String status = params[0];
             String result = "Unknown Result!";
             try {
-                YambaClient yamba = new YambaClient(userId, password, serverUrl);
+                YambaClientInterface yamba = YambaClient.getClient(userId, password, serverUrl);
                 if (allowPostingGeoLocation) {
                     yamba.postStatus(status, latitude, longitude);
                 } else {
@@ -74,6 +76,8 @@ public class StatusFragment extends Fragment {
                 }
                 Log.e(TAG, "Status Sent: " + status);
                 result = "Status Sent: " + status;
+                Log.d(TAG, "Posted Status - trigger RefreshService");
+                getActivity().startService(new Intent(getActivity(), RefreshService.class));
             } catch (YambaClientException e) {
                 Log.e(TAG, "Yamba Exception: " + e.getMessage());
                 e.printStackTrace();

@@ -47,7 +47,7 @@ public class StatusDetailsFragment extends Fragment {
     }
 
     public void updateView(long id) {
-        String user = "", message = "", createdAt = "";
+        String user = "", message = "", createdAt = "", latitude = "", longitude = "";
         if (id != -1) {
             Uri uri = ContentUris.withAppendedId(StatusContract.CONTENT_URI, id);
             Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
@@ -57,9 +57,14 @@ public class StatusDetailsFragment extends Fragment {
             user = cursor.getString(cursor.getColumnIndex(StatusContract.Column.USER));
             message = cursor.getString(cursor.getColumnIndex(StatusContract.Column.MESSAGE));
             createdAt = DateUtils.getRelativeTimeSpanString(cursor.getLong(cursor.getColumnIndex(StatusContract.Column.CREATED_AT))).toString();
+            latitude = cursor.getString(cursor.getColumnIndex(StatusContract.Column.LATITUDE));
+            longitude = cursor.getString(cursor.getColumnIndex(StatusContract.Column.LONGITUDE));
+
         }
         txtUser.setText(user);
         txtMessage.setText(message);
         txtCreatedAt.setText(createdAt);
+        txtLatitude.setText(latitude);
+        txtLongitude.setText(longitude);
     }
 }

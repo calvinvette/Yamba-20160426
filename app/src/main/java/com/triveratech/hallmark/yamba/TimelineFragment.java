@@ -85,6 +85,12 @@ public class TimelineFragment extends ListFragment implements LoaderManager.Load
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //adapter.getCursor().close(); // ??? CV - is this the appropriate place to close the cursor - does it run AFTER the view has been created and the List populated?
+    }
+
+    @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         adapter.swapCursor(null);
     }

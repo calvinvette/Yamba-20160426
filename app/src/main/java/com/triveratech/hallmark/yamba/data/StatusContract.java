@@ -26,5 +26,7 @@ public class StatusContract {
         public static final String USER = "user";
         public static final String MESSAGE = "message";
         public static final String CREATED_AT = "created_at";
+        public static final String LATITUDE = "latitude";
+        public static final String LONGITUDE = "longitude";
     }
 }
