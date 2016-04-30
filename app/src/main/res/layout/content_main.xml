@@ -18,7 +18,8 @@
         android:id="@+id/fragment_timeline"
         android:name="com.triveratech.hallmark.yamba.TimelineFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="375dp"
+        android:layout_weight="1"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -26,5 +27,14 @@
         tools:context="com.triveratech.hallmark.yamba.TimelineFragment"
         tools:listitem="@layout/status_list_item"
         tools:layout="@layout/status_list_item" />
+    <!-- TODO - obsolete layout pattern "layout_weight" (refactor) -->
+    <fragment
+        android:id="@+id/fragment_status_details_wrapper"
+        android:name="com.triveratech.hallmark.yamba.StatusDetailsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        tools:layout="@layout/status_list_item"
+        />
 
 </RelativeLayout>

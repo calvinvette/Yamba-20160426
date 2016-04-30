@@ -18,6 +18,12 @@
         android:defaultValue="http://yamba.marakana.com"
         />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="allowPostingGeoLocation"
+        android:summary="@string/pref_summary_allowPostingGeoLocation"
+        android:title="@string/pref_title_allowPostingGeoLocation" />
+
     <!-- TODO-CV - we're just leaving these here for demo purposes -->
     <!--
     <SwitchPreference

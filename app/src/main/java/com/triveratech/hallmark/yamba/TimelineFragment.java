@@ -3,12 +3,14 @@ package com.triveratech.hallmark.yamba;
 import android.app.ListFragment;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -59,6 +61,16 @@ public class TimelineFragment extends ListFragment implements LoaderManager.Load
         });
         setListAdapter(adapter);
         getLoaderManager().initLoader(LOADER_ID, null, this);
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        StatusDetailsFragment fragment = (StatusDetailsFragment) getFragmentManager().findFragmentById(R.id.fragment_status_details_wrapper);
+        if (fragment != null && fragment.isVisible()) {
+            fragment.updateView(id);
+        } else {
+            startActivity(new Intent(getActivity(), StatusDetailsActivity.class).putExtra(StatusContract.Column.ID, id));
+        }
     }
 
     @Override

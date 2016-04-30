@@ -52,17 +52,26 @@ public class StatusFragment extends Fragment {
     private String password = "password";
     private String serverUrl = "http://yamba.marakana.com/api"; // the old value is wrong - change in settings page!
 
+    private boolean allowPostingGeoLocation = false; // Default to false for safety reasons - user has to explicitly enable this in prefs
+    private double latitude = 42.5, longitude = -83.285;
+
     private OnFragmentInteractionListener mListener;
 
 
     private final class PostTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            allowPostingGeoLocation = prefs.getBoolean("allowPostingGeoLocation", false);
             String status = params[0];
             String result = "Unknown Result!";
             try {
                 YambaClient yamba = new YambaClient(userId, password, serverUrl);
-                yamba.postStatus(status);
+                if (allowPostingGeoLocation) {
+                    yamba.postStatus(status, latitude, longitude);
+                } else {
+                    yamba.postStatus(status);
+                }
                 Log.e(TAG, "Status Sent: " + status);
                 result = "Status Sent: " + status;
             } catch (YambaClientException e) {

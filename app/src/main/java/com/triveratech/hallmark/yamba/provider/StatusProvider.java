@@ -82,10 +82,11 @@ public class StatusProvider extends ContentProvider {
             throw new IllegalArgumentException("Illegal URI: " + uri);
         }
         long rowId = getDb().insertWithOnConflict(StatusContract.TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
-            long id = values.getAsLong(StatusContract.Column.ID);
-            ret = ContentUris.withAppendedId(uri, id);
-            getContext().getContentResolver().notifyChange(uri, null);
-        if (rowId != -1) {
+        long id = values.getAsLong(StatusContract.Column.ID);
+        ret = ContentUris.withAppendedId(uri, id);
+        getContext().getContentResolver().notifyChange(uri, null);
+        if (rowId != -1) { // Record wasn't inserted, probably because we already had a copy of it
+
         } else {
             Log.d(TAG, "Failed to insert: " + ret);
             //throw new IllegalArgumentException("Not inserted: " + values);
