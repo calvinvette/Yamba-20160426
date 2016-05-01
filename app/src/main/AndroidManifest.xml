@@ -47,11 +47,22 @@
 
         <receiver
             android:name=".BootReceiver"
-        >
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.REBOOT"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".NotificationReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.triveratech.hallmark.yamba.NEW_STATUSES" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
         </receiver>
     </application>
 

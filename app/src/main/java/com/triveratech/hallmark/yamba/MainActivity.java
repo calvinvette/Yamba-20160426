@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         });
         Log.d(TAG, "App Started MainActivity - trigger RefreshService");
         startService(new Intent(this, RefreshService.class));
-        // TODO-CV BootReceiver is not receiving it's BOOT intent, so we're putting this here for now
+        // TODO-CV BootReceiver is not receiving it's BOOT_COMPLETED intent, so we're putting this here for now
         BootReceiver.setRefreshAlarm(this);
     }
 

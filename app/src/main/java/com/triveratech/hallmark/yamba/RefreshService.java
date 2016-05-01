@@ -97,6 +97,7 @@ public class RefreshService extends IntentService {
             DbHelper dbHelper = new DbHelper(this);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
+            int count = 0;
 
             for (YambaStatus s: timeLine) {
                 Log.d(TAG, s.getUser() + "@" + s.getCreatedAt() + ": " + s.getMessage());
@@ -107,7 +108,7 @@ public class RefreshService extends IntentService {
                 values.put(StatusContract.Column.CREATED_AT, s.getCreatedAt().getTime());
 
                 // The YambaClient jar does not currently support latitude and longitude
-                // It's in the return feed from the server, but not the jar file yet.
+                // It's in the return feed from the server, but not supported by the 2.1.0 jar file yet.
                 // Update the build.gradle file for the app when they do with the new version number
                 // and this code should work, along with storing in the database.
                 //values.put(StatusContract.Column.LATITUDE, s.getLatitude());
@@ -121,7 +122,13 @@ public class RefreshService extends IntentService {
                 Uri uri = getContentResolver().insert(StatusContract.CONTENT_URI, values);
                 if (uri == null) {
                     Log.d(TAG, "Failed to insert with Content Resolver! " + uri);
+                } else {
+                    count++;
                 }
+            }
+
+            if (count > 0) {
+                sendBroadcast(new Intent("com.triveratech.hallmark.yamba.NEW_STATUSES").putExtra("count", count));
             }
 
         } catch (YambaClientException e) {

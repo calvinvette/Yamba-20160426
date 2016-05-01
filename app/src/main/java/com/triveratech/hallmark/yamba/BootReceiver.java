@@ -27,7 +27,7 @@ public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         setRefreshAlarm(context);
-        Log.d(TAG, "Boot Receiver for RefreshService");
+        Log.d(TAG, "Boot Receiver got onReceive");
         //context.startService(new Intent(context, RefreshService.class));
     }
 
