@@ -83,12 +83,14 @@ public class StatusProvider extends ContentProvider {
         }
         long rowId = getDb().insertWithOnConflict(StatusContract.TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         long id = values.getAsLong(StatusContract.Column.ID);
-        ret = ContentUris.withAppendedId(uri, id);
-        getContext().getContentResolver().notifyChange(uri, null);
-        if (rowId != -1) { // Record wasn't inserted, probably because we already had a copy of it
-
+        if (rowId != -1) {
+            ret = ContentUris.withAppendedId(uri, id);
+            getContext().getContentResolver().notifyChange(uri, null);
         } else {
-            Log.d(TAG, "Failed to insert: " + ret);
+            // Record wasn't inserted, probably because we already had a copy of it
+            Log.d(TAG, "Failed to insert into DB: " + ret);
+            ret = ContentUris.withAppendedId(uri, rowId);
+            Log.d(TAG, "Returning: " + ret);
             //throw new IllegalArgumentException("Not inserted: " + values);
         }
         return ret;

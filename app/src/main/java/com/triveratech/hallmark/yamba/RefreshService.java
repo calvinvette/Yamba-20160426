@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.UriMatcher;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Environment;
@@ -122,7 +123,11 @@ public class RefreshService extends IntentService {
                 Uri uri = getContentResolver().insert(StatusContract.CONTENT_URI, values);
                 if (uri == null) {
                     Log.d(TAG, "Failed to insert with Content Resolver! " + uri);
-                } else {
+                    Log.d(TAG, "ContentResolver inserted: " + uri);
+                }
+                long id = Long.parseLong(uri.getLastPathSegment());
+                Log.d(TAG, "URI-based ID: " + id);
+                if (id >= 0) {
                     count++;
                 }
             }
