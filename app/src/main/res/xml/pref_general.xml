@@ -24,6 +24,15 @@
         android:summary="@string/pref_summary_allowPostingGeoLocation"
         android:title="@string/pref_title_allowPostingGeoLocation" />
 
+    <ListPreference
+        android:defaultValue="180"
+        android:entries="@array/pref_sync_frequency_titles"
+        android:entryValues="@array/pref_sync_frequency_values"
+        android:key="interval"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_sync_frequency" />
+
     <!-- TODO-CV - we're just leaving these here for demo purposes -->
     <!--
     <SwitchPreference
